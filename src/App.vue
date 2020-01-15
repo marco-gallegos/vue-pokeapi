@@ -33,12 +33,21 @@
       </div>
       <div class="row">
         <div class="col-12">
-          <vuetable
+          <template class="col-12" >
+            <ag-grid-vue 
+              style="min-width: 500px;"
+              class="ag-theme-balham"
+              domLayout='autoHeight'
+              :columnDefs="columnDefs"
+              :rowData="pokemonsTable">
+            </ag-grid-vue>
+          </template>
+          <!-- vuetable
             :api-mode="false"
             :data="pokemonsTable"
             :fields="['sprites.front_default','name']"
           >
-          </vuetable>
+          </vuetable-->
         </div>
       </div>
 
@@ -68,18 +77,29 @@
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import HelloWorld from './components/HelloWorld.vue';
+import {AgGridVue} from "ag-grid-vue";
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    HelloWorld,
+    AgGridVue
   },
   mounted(){
     var vm  = this;
     window.axios.get( window.config.apiurl + "type" ).then(response => {
       this.tipos = response.data.results
     })
+    this.columnDefs = [
+      {headerName: 'imagen', field: 'name', sortable: true, filter: true },
+      {headerName: 'Nombre', field: 'name', sortable: true, filter: true },
+      {headerName: 'One', field: 'fieldName',
+                cellRenderer : function(params){
+                    return '<div><button @click="click()" class="btn btn-sm btn-info" >Ver Pokemon</button></div>'
+                }
+            }
+    ];
   },
   data(){
     return {
@@ -87,6 +107,7 @@ export default {
       tipos:[],
       pokemons:[],
       pokemonsTable:[],
+      columnDefs:[],
     }
   },
   methods:{
@@ -109,4 +130,7 @@ export default {
 }
 </script>
 
-
+<style lang="scss">
+  @import "../node_modules/ag-grid-community/dist/styles/ag-grid.css";
+  @import "../node_modules/ag-grid-community/dist/styles/ag-theme-balham.css";
+</style>
