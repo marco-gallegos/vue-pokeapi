@@ -1,4 +1,6 @@
-# pokeapi
+# Vue PokeApi
+
+inspired by a video on codigo facilito channel at [YouTube](https://www.youtube.com/watch?v=x_PZdV4rzCA)
 
 ## Project setup
 ```
